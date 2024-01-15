@@ -29,28 +29,29 @@ const TodoCard = ({
         name="complete"
         id="complete"
       />
-      <p className="font-semibold">{title}</p>
-      {/* <p>Time</p> */}
-      <div>
+      <p className="font-semibold flex-1 ml-2">{title}</p>
+      <div className="flex-1">
         {isCompleted ? (
           <p className="text-green-500">Done</p>
         ) : (
           <p className="text-red-500">Pending</p>
         )}
       </div>
-      <div className={`flex items-center gap-2`}>
-        <div
-          className={`size-4 rounded-full ${
-            priority === "high"
-              ? "bg-red-500"
-              : priority === "medium"
-              ? "bg-green-600"
-              : "bg-green-400"
-          }`}
-        ></div>{" "}
-        <p>{priority}</p>
+      <div className="flex-1">
+        <div className={`flex items-center gap-2`}>
+          <div
+            className={`size-4 rounded-full ${
+              priority === "high"
+                ? "bg-red-500"
+                : priority === "medium"
+                ? "bg-green-600"
+                : "bg-green-400"
+            }`}
+          ></div>{" "}
+          <p>{priority}</p>
+        </div>
       </div>
-      <p>{description}</p>
+      <p className="flex-[2]">{description}</p>
       <div className="space-x-5">
         <Button onClick={() => dispatch(removeTodo(id))} className="bg-red-500">
           <svg
