@@ -37,19 +37,17 @@ const TodoCard = ({
           <p className="text-red-500">Pending</p>
         )}
       </div>
-      <div className="flex-1">
-        <div className={`flex items-center gap-2`}>
-          <div
-            className={`size-4 rounded-full ${
-              priority === "high"
-                ? "bg-red-500"
-                : priority === "medium"
-                ? "bg-green-600"
-                : "bg-green-400"
-            }`}
-          ></div>{" "}
-          <p>{priority}</p>
-        </div>
+      <div className="flex-1 flex items-center gap-2">
+        <div
+          className={`size-2 rounded-full ${
+            priority === "high"
+              ? "bg-red-500"
+              : priority === "medium"
+              ? "bg-yellow-500"
+              : "bg-green-400"
+          }`}
+        ></div>{" "}
+        <p>{priority}</p>
       </div>
       <p className="flex-[2]">{description}</p>
       <div className="space-x-5">
