@@ -13,6 +13,7 @@ const TodoContainer = () => {
 
   // from server
   const { data: todos, isLoading, isError } = useGetTodosQuery(priority);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }

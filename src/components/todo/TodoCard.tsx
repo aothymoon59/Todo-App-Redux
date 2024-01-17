@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "@/redux/api/api";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import EditTodoModal from "./EditTodoModal";
 
 export type TTodoCardProps = {
   _id: string;
@@ -97,9 +97,7 @@ const TodoCard = ({
         <Button onClick={() => handleDeleteTodo(_id)} className="bg-red-500">
           <FaTrashAlt className="size-5" />
         </Button>
-        <Button className="bg-[#5C53FE]">
-          <FaEdit className="size-5" />
-        </Button>
+        <EditTodoModal taskId={_id} />
       </div>
     </div>
   );

@@ -21,6 +21,15 @@ export const baseApi = createApi({
       },
       providesTags: ["todo"],
     }),
+    getSingleTodo: builder.query({
+      query: (taskId) => {
+        return {
+          url: `/task/${taskId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["todo"],
+    }),
     addTodo: builder.mutation({
       query: (data) => {
         return {
@@ -55,6 +64,7 @@ export const baseApi = createApi({
 
 export const {
   useGetTodosQuery,
+  useGetSingleTodoQuery,
   useAddTodoMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation,

@@ -11,8 +11,6 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useAppDispatch } from "@/redux/hook";
-import { addTodo } from "@/redux/features/todoSlice";
 import {
   Select,
   SelectContent,
@@ -22,52 +20,52 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useAddTodoMutation } from "@/redux/api/api";
+import { FaEdit } from "react-icons/fa";
+import { useGetSingleTodoQuery, useUpdateTodoMutation } from "@/redux/api/api";
+import Swal from "sweetalert2";
 
-const AddTodoModal = () => {
+const EditTodoModal = ({ taskId }: { taskId: string }) => {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
 
-  //! For Local State Management
-  // const dispatch = useAppDispatch();
-
-  //* For Server
-  //? [actualFunctionForPost, {data, isLoading, isError}]
-
-  const [addTodo, { data, isLoading, isError, isSuccess }] =
-    useAddTodoMutation();
+  const { data: todo } = useGetSingleTodoQuery(taskId);
+  const [updateTodo] = useUpdateTodoMutation();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // const randomString = Math.random().toString(36).substring(2, 7);
-
-    const taskDetails = {
-      title: task,
-      description: description,
-      priority: priority,
-      isCompleted: false,
+    const options = {
+      id: taskId,
+      data: {
+        title: todo?.task || task,
+        description: todo?.description || description,
+        priority: todo?.priority || priority,
+        isCompleted: todo?.isCompleted,
+      },
     };
-
-    //* for server
-    addTodo(taskDetails);
-
-    // dispatch(addTodo(taskDetails));
+    updateTodo(options);
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Task updated successfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-primary-gradient text-xl font-semibold">
-          Add todo
+        <Button className="bg-[#5C53FE]">
+          <FaEdit className="size-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Task</DialogTitle>
+          <DialogTitle>Edit Task</DialogTitle>
           <DialogDescription>
-            Add your tasks that you want to finish.
+            Edit your tasks that you want to finish.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit}>
@@ -80,6 +78,7 @@ const AddTodoModal = () => {
                 onBlur={(e) => setTask(e.target.value)}
                 id="task"
                 className="col-span-3"
+                defaultValue={todo?.title}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -90,11 +89,15 @@ const AddTodoModal = () => {
                 onBlur={(e) => setDescription(e.target.value)}
                 id="description"
                 className="col-span-3"
+                defaultValue={todo?.description}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right">Priority</Label>
-              <Select onValueChange={(value) => setPriority(value)}>
+              <Select
+                defaultValue={todo?.priority}
+                onValueChange={(value) => setPriority(value)}
+              >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Select a priority" />
                 </SelectTrigger>
@@ -120,4 +123,4 @@ const AddTodoModal = () => {
   );
 };
 
-export default AddTodoModal;
+export default EditTodoModal;
