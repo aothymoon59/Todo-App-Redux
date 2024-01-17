@@ -38,8 +38,6 @@ const AddTodoModal = () => {
   const [addTodo, { data, isLoading, isError, isSuccess }] =
     useAddTodoMutation();
 
-  console.log({ data, isLoading, isError, isSuccess });
-
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
