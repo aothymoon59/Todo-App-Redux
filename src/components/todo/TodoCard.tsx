@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/redux/hook";
 import { Button } from "../ui/button";
 import { removeTodo, toggleComplete } from "@/redux/features/todoSlice";
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "@/redux/api/api";
+import Swal from "sweetalert2";
 
 type TTodoCardProps = {
   _id: string;
@@ -40,7 +41,24 @@ const TodoCard = ({
   };
 
   const handleDeleteTodo = (taskId: string) => {
-    deleteTodo(taskId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTodo(taskId);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Todo has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
