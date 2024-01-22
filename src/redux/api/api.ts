@@ -5,6 +5,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
   tagTypes: ["todo"],
   endpoints: (builder) => ({
+    // get todo
     getTodos: builder.query({
       query: (priority) => {
         const params = new URLSearchParams();
@@ -21,6 +22,7 @@ export const baseApi = createApi({
       },
       providesTags: ["todo"],
     }),
+    // get single todo
     getSingleTodo: builder.query({
       query: (taskId) => {
         return {
@@ -30,6 +32,7 @@ export const baseApi = createApi({
       },
       providesTags: ["todo"],
     }),
+    // add todo
     addTodo: builder.mutation({
       query: (data) => {
         return {
@@ -40,6 +43,7 @@ export const baseApi = createApi({
       },
       invalidatesTags: ["todo"],
     }),
+    // update todo
     updateTodo: builder.mutation({
       query: (options) => {
         return {
@@ -50,6 +54,7 @@ export const baseApi = createApi({
       },
       invalidatesTags: ["todo"],
     }),
+    // delete todo
     deleteTodo: builder.mutation({
       query: (taskId) => {
         return {
